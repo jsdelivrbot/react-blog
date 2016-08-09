@@ -9,12 +9,21 @@ class PostsNew extends Component {
     router: PropTypes.object
   };
 
+  onSubmit(props) {
+    this.props.createPost(props)
+      .then( () => {
+        // blog post has been created, navigate the user to the
+        // index by calling this.context.router.push to the new path
+        this.context.router.push('/');
+      })
+  }
+
   render() {
 
     const { fields: { title, categories, content}, handleSubmit } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.props.createPost)} >
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))} >
         <h3>New Blog Post</h3>
         <div className={`form-group ${title.touched && title.invalid ? 'has-danger' : '' }`}>
           <label>Title</label>
